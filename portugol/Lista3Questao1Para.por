@@ -1,6 +1,6 @@
 programa
 {
-	inclua biblioteca Matematica --> Mat
+	inclua biblioteca Matematica --> Mat
 	
 	funcao inicio()
 	{
@@ -25,7 +25,8 @@ programa
 			real totalFilhos = 0.00
 			real total100 = 0.00
 			
-			
+			//comentario de teste
+			//para testar o git
 			para(inteiro x=1; x<=popu; x++){
 				escreva ("Digite o salário: ")
 			leia(salario)
@@ -61,7 +62,7 @@ programa
  * Esta seção do arquivo guarda informações do Portugol Studio.
  * Você pode apagá-la se estiver utilizando outro editor.
  * 
- * @POSICAO-CURSOR = 569; 
+ * @POSICAO-CURSOR = 815; 
  * @PONTOS-DE-PARADA = ;
  * @SIMBOLOS-INSPECIONADOS = ;
  * @FILTRO-ARVORE-TIPOS-DE-DADO = inteiro, real, logico, cadeia, caracter, vazio;
