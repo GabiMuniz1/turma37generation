@@ -2,6 +2,8 @@ package org.generation.blogPessoal.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.generation.blogPessoal.model.Tema;
 import org.generation.blogPessoal.repository.TemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
+
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -41,18 +47,25 @@ public class TemaController {
 		}
 		
 		@PostMapping
-		public ResponseEntity<Tema> post(@RequestBody Tema tema){
-			return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(tema));
+		public ResponseEntity<Tema> post(@Valid @RequestBody Tema tema){
+		        return ResponseEntity.status(HttpStatus.CREATED)
+				        .body(repository.save(tema));
 		}
-		
+
 		@PutMapping
-		public ResponseEntity<Tema> put(@RequestBody Tema tema){
-			return ResponseEntity.ok(repository.save(tema));
+		public ResponseEntity<Tema> put(@Valid @RequestBody Tema tema){
+		        return repository.findById(tema.getId())
+				        .map(resp -> ResponseEntity.status(HttpStatus.CREATED).body(repository.save(tema)))
+				        .orElse(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
 		}
+
+		@ResponseStatus(HttpStatus.NO_CONTENT)
 		@DeleteMapping("/{id}")
-		public void delete(@PathVariable Long id) {
-			repository.deleteById(id);
+		public void delete(@PathVariable long id) {
+		        java.util.Optional<Tema> tema = repository.findById(id);
+		        if(tema.isEmpty())
+			        throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		        repository.deleteById(id);				
 		}
-		
 
 }

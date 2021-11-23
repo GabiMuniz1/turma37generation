@@ -1,12 +1,19 @@
 package org.generation.blogPessoal.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "tb_usuario")
@@ -27,6 +34,18 @@ public class Usuario {
 	@NotNull
 	@Size(min = 2, max = 100)
 	private String senha;
+	
+	@OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+	@JsonIgnoreProperties({"usuario"})
+	private List<Postagem> minhasPostagens = new ArrayList<>();
+
+	public List<Postagem> getMinhasPostagens() {
+		return minhasPostagens;
+	}
+
+	public void setMinhasPostagens(List<Postagem> minhasPostagens) {
+	       this.minhasPostagens = minhasPostagens;
+	}
 
 	public long getId() {
 		return id;
@@ -59,6 +78,6 @@ public class Usuario {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
 
+	
 }
